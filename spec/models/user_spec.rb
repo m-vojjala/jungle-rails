@@ -23,11 +23,11 @@ RSpec.describe User, type: :model do
   expect(@user.errors[:password]).to include("can\'t be blank")
  end
  it 'should not create a user if email is not unique' do
-  @user1=User.new(name:"john", email:"joe@amith@ymail.com", password:"1234", password_confirmation:"1234")
+  @user1=User.new(name:"john", email:"joe@amith@ymail.com", password:"1234567", password_confirmation:"1234567")
   @user1.save
-  @user2=User.new(name:"john", email:"JOE@AMITH@ymail.com", password:"1234", password_confirmation:"1234")
-  @user2.save
-  expect(@user2.errors[:email]).to match_array([])
+  @user2=User.new(name:"Jay", email:"JOE@AMITH@ymail.com", password:"1234876", password_confirmation:"1234876")
+  @user2.valid?
+  expect(@user2.errors[:email]).to include("has already been taken")
  end
  it 'should not create a user when passwords do not match' do
   @user=User.new(name:"john", email:"joe@amith@ymail.com", password:"1234", password_confirmation:"12345")
